@@ -102,6 +102,7 @@ document.addEventListener('keydown', event => {
     piece.position.y++
     if (checkCollision()) {
       piece.position.y--
+      solidifyPiece()
     }
   }
 })
@@ -110,11 +111,20 @@ function checkCollision () {
     return row.find((value, x) => {
       return (
         value !== 0 &&
-        board[y + piece.position.y] &&
-        board[y + piece.position.y][x + piece.position.x] !== 0
-
+        board[y + piece.position.y]?.[x + piece.position.x] !== 0
       )
     })
   })
+}
+function solidifyPiece () {
+  piece.shape.forEach((row, x) => {
+    row.forEach((value, y) => {
+      if (value === 1) {
+        board[y + piece.position.y][x + piece.position.x] = 1
+      }
+    })
+  })
+  piece.position.x = 0
+  piece.position.y = 0
 }
 update()
