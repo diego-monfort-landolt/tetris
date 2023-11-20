@@ -166,7 +166,7 @@ function solidifyPiece() {
   piece.shape = PIECES[Math.floor(Math.random() * PIECES.length)];
   // Game over
   if (checkCollision()) {
-    window.alert("¡¡ Game Over !!");
+    window.alert("¡¡🖕 Game Over 🖕!!");
     board.forEach((row) => row.fill(0));
   }
 }
