@@ -169,12 +169,16 @@ function solidifyPiece () {
       }
     })
   })
-
+  // reset position
+  piece.position.x = Math.floor(BOARD_WIDTH / 2 - 2)
+  piece.position.y = 0
   // get random shape
   piece.shape = PIECES[Math.floor(Math.random() * PIECES.length)]
-  // reset position
-  piece.position.x = 0
-  piece.position.y = 0
+  // Game over
+  if (checkCollision()) {
+    window.alert('¡¡ Game Over !!')
+    board.forEach((row) => row.fill(0))
+  }
 }
 
 function removeRows () {
