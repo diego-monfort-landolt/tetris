@@ -1,7 +1,5 @@
 import './style.css'
 
-// 1. init canvas
-
 const canvas = document.querySelector('canvas')
 const context = canvas.getContext('2d')
 
@@ -61,6 +59,31 @@ const piece = {
     [1, 1]
   ]
 }
+
+// .random pieces
+const PIECES = [
+  [
+    [1, 1],
+    [1, 1]
+  ],
+  [
+    [1, 1, 1, 1]
+  ],
+  [
+    [0, 1, 0],
+    [1, 1, 1]
+  ],
+  [
+    [1, 1, 0],
+    [0, 1, 1]
+  ],
+  [
+    [1, 0],
+    [1, 0],
+    [1, 1]
+  ]
+]
+
 // 2.game loop
 let dropCounter = 0
 let lastTime = 0
@@ -72,6 +95,12 @@ function update (time = 0) {
   if (dropCounter > 1000) {
     piece.position.y++
     dropCounter = 0
+
+    if (checkCollision()) {
+      piece.position.y--
+      solidifyPiece()
+      removeRows()
+    }
   }
 
   draw()
@@ -133,13 +162,17 @@ function checkCollision () {
   })
 }
 function solidifyPiece () {
-  piece.shape.forEach((row, x) => {
-    row.forEach((value, y) => {
+  piece.shape.forEach((row, y) => {
+    row.forEach((value, x) => {
       if (value === 1) {
         board[y + piece.position.y][x + piece.position.x] = 1
       }
     })
   })
+
+  // get random shape
+  piece.shape = PIECES[Math.floor(Math.random() * PIECES.length)]
+  // reset position
   piece.position.x = 0
   piece.position.y = 0
 }
